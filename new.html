@@ -513,7 +513,7 @@ document.getElementById('cform').addEventListener('submit', function(e) {
 
         // Filtruj: pokaż tylko aktywne i archiwalne; edycja = ukryte
         renderGrid('grid-akt',  data.filter(r => r.status?.toLowerCase() === 'aktywne'));
-        renderGrid('grid-arch', data.filter(r => r.status?.toLowerCase() === 'archiwalne'));
+        renderGrid('grid-arch', data.filter(r => r.status?.toLowerCase() === 'archiwum'));
       } catch (err) {
         console.error('Błąd ładowania ogłoszeń:', err);
         ['grid-akt', 'grid-arch'].forEach(id => {
