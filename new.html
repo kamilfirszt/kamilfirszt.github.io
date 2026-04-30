@@ -432,6 +432,98 @@ document.getElementById('cform').addEventListener('submit', function(e) {
   msg.textContent='Dziękuję za wiadomość! Odezwę się wkrótce. — Ada';
   this.reset();
 });
+
+// ══════════════════════════════════════════════════
+    //  PROPERTY SYSTEM — Google Sheets
+    //  Statusy w arkuszu: aktywne | archiwalne | edycja
+    //  Ogłoszenia ze statusem "edycja" nie są wyświetlane.
+    // ══════════════════════════════════════════════════
+
+    // ▶ Wklej URL swojego Apps Script Web App
+    const SHEET_DEPLOY_URL = 'https://script.google.com/macros/s/AKfycbxAeniqxpwf5RpfKSiHZsE0witXn5mplefoWU7rSpZ8FMVvlMRe0_vT_HpGa05YLFcJsA/exec';
+
+    function gdriveThumbnail(url) {
+      if (!url) return '';
+      const m = url.match(/(?:drive\.google\.com\/file\/d\/|id=)([a-zA-Z0-9_-]+)/);
+      if (m) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w600`;
+      return url;
+    }
+
+    function formatPrice(p) {
+      if (!p) return 'Zapytaj o cenę';
+      const n = parseFloat(String(p).replace(/[^0-9.]/g, ''));
+      if (isNaN(n)) return String(p);
+      return new Intl.NumberFormat('pl-PL', { style: 'currency', currency: 'PLN', maximumFractionDigits: 0 }).format(n);
+    }
+
+    function propCard(row) {
+      const img = gdriveThumbnail(row.zdjecie);
+      const isNew = ['tak','true','1'].includes(String(row.nowe).toLowerCase());
+      const imgHtml = img
+        ? `<img src="${img}" alt="${row.tytul || ''}" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.parentElement.innerHTML='<span style=font-size:2.4rem>⌂</span>'" />`
+        : '<span style="font-size:2.4rem;color:var(--border2)">⌂</span>';
+      return `
+        <article class="prop-card fu">
+          <div class="prop-img">
+            ${imgHtml}
+            ${isNew ? '<span class="prop-badge">Nowe</span>' : ''}
+          </div>
+          <div class="prop-body">
+            ${row.typ        ? `<p class="prop-type">${row.typ}</p>` : ''}
+            <h3 class="prop-name">${row.tytul || 'Bez tytułu'}</h3>
+            ${row.lokalizacja ? `<p class="prop-loc">📍 ${row.lokalizacja}</p>` : ''}
+            <p class="prop-price">${formatPrice(row.cena)}</p>
+            <div class="prop-meta">
+              ${row.pokoje ? `<span>${row.pokoje} pok.</span>` : ''}
+              ${row.metraz ? `<span>${row.metraz} m²</span>` : ''}
+              ${row.pietro ? `<span>${row.pietro} p.</span>` : ''}
+            </div>
+            ${row.opis ? `<p style="margin-top:.7rem;font-size:.8rem;color:var(--text2);line-height:1.6;">${row.opis}</p>` : ''}
+          </div>
+        </article>`;
+    }
+
+    function emptyGrid(gridId) {
+      const msgs = {
+        'grid-akt':  'Nowe oferty pojawiają się regularnie.<br><a href="#kontakt" class="btn btn-line" style="display:inline-block;margin-top:1rem;">Zapytaj o oferty</a>',
+        'grid-arch': 'Archiwum sprzedanych nieruchomości — każda historia to sukces klienta, który mi zaufał.'
+      };
+      document.getElementById(gridId).innerHTML =
+        `<div class="prop-empty"><p>${msgs[gridId] || ''}</p></div>`;
+    }
+
+    function renderGrid(gridId, rows) {
+      const grid = document.getElementById(gridId);
+      if (!rows.length) { emptyGrid(gridId); return; }
+      grid.innerHTML = rows.map(propCard).join('');
+      grid.querySelectorAll('.fu').forEach(el => obs.observe(el));
+    }
+
+    async function loadProperties() {
+      if (!SHEET_DEPLOY_URL) {
+        document.getElementById('setup-notice').style.display = 'block';
+        emptyGrid('grid-akt');
+        emptyGrid('grid-arch');
+        return;
+      }
+      try {
+        const resp = await fetch(SHEET_DEPLOY_URL);
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        const data = await resp.json();
+
+        // Filtruj: pokaż tylko aktywne i archiwalne; edycja = ukryte
+        renderGrid('grid-akt',  data.filter(r => r.status?.toLowerCase() === 'aktywne'));
+        renderGrid('grid-arch', data.filter(r => r.status?.toLowerCase() === 'archiwalne'));
+      } catch (err) {
+        console.error('Błąd ładowania ogłoszeń:', err);
+        ['grid-akt', 'grid-arch'].forEach(id => {
+          document.getElementById(id).innerHTML =
+            '<div class="prop-error">Nie udało się wczytać ogłoszeń. Sprawdź konfigurację.</div>';
+        });
+      }
+    }
+
+    loadProperties();
 </script>
 </body>
 </html>
