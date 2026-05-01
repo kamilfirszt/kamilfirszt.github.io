@@ -184,12 +184,58 @@ section{padding:clamp(4rem,8vw,7rem) clamp(1.5rem,4vw,3.5rem);transition:var(--t
 .tab.active{color:var(--rose);border-bottom-color:var(--rose)}.tab:hover{color:var(--text2)}
 .panel{display:none}.panel.active{display:block}
 .prop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.3rem}
-.prop-card{background:var(--surface);border:1px solid var(--border);overflow:hidden;transition:box-shadow .25s,transform .25s;box-shadow:var(--sh-sm)}
-.prop-card:hover{box-shadow:var(--sh-md);transform:translateY(-3px)}
+.prop-card{background:var(--surface);border:1px solid var(--border);overflow:hidden;transition:box-shadow .25s,transform .25s,border-color .25s;box-shadow:var(--sh-sm);cursor:pointer}
+.prop-card:hover{box-shadow:var(--sh-md);transform:translateY(-3px);border-color:var(--rose)}
+.prop-card:hover .prop-img img{transform:scale(1.04)}
+.prop-img img{transition:transform .4s}
+
+/* ══ MODAL OGŁOSZENIE ══ */
+.pmo{display:none;position:fixed;inset:0;z-index:500;background:rgba(42,32,24,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);overflow-y:auto;padding:clamp(1rem,4vw,3rem)}
+.pmo.open{display:flex;align-items:flex-start;justify-content:center}
+.pmo-box{background:var(--surface);width:100%;max-width:880px;margin:auto;position:relative;box-shadow:0 24px 80px rgba(0,0,0,.2);border-top:3px solid var(--rose)}
+.pmo-close{position:absolute;top:.9rem;right:.9rem;width:36px;height:36px;border:1px solid var(--border2);background:var(--surface);cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;z-index:10;transition:all .2s}
+.pmo-close:hover{border-color:var(--rose);background:var(--rose);color:#fff}
+/* Gallery */
+.gal{position:relative;background:var(--bg3);height:360px;overflow:hidden}
+.gal-track{display:flex;height:100%;transition:transform .4s ease}
+.gal-slide{min-width:100%;height:100%;flex-shrink:0}
+.gal-slide img{width:100%;height:100%;object-fit:cover;display:block}
+.gal-slide-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:4rem;color:var(--border2)}
+.gal-btn{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;background:rgba(250,248,245,.88);border:none;cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;z-index:5;transition:all .2s}
+[data-theme="dark"] .gal-btn{background:rgba(26,24,21,.88)}
+.gal-btn:hover{background:var(--rose);color:#fff}
+.gal-prev{left:.8rem}.gal-next{right:.8rem}
+.gal-dots{position:absolute;bottom:.75rem;left:50%;transform:translateX(-50%);display:flex;gap:.4rem}
+.gal-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.45);border:none;cursor:pointer;padding:0;transition:background .2s}
+.gal-dot.on{background:#fff}
+.gal-count{position:absolute;bottom:.75rem;right:.9rem;font-size:.72rem;color:#fff;background:rgba(0,0,0,.4);padding:.15rem .55rem}
+/* Modal body */
+.pmo-body{padding:clamp(1.5rem,4vw,2.4rem)}
+.pmo-badges{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.9rem}
+.mbadge{font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;padding:.22rem .7rem;font-weight:500}
+.mbadge-rose{background:var(--rose);color:#fff}
+.mbadge-blue{background:#3c6496;color:#fff}
+.mbadge-out{background:transparent;border:1px solid var(--border2);color:var(--text2)}
+.pmo-top{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;margin-bottom:.5rem;flex-wrap:wrap}
+.pmo-title{font-family:var(--ff-head);font-size:clamp(1.4rem,2.5vw,1.9rem);font-weight:400;color:var(--text);line-height:1.2}
+.pmo-price{font-family:var(--ff-head);font-size:1.6rem;color:var(--rose-dk);font-weight:500;white-space:nowrap}
+.pmo-loc{font-size:.86rem;color:var(--muted);margin-bottom:1.4rem}
+.pmo-params{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:.65rem;margin-bottom:1.5rem}
+.pmo-param{padding:.75rem 1rem;border:1px solid var(--border);background:var(--bg2)}
+.pmo-param dt{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.2rem}
+.pmo-param dd{font-family:var(--ff-head);font-size:.95rem;color:var(--text)}
+.pmo-desc{font-size:.88rem;color:var(--text2);line-height:1.8;border-top:1px solid var(--border);padding-top:1.4rem;margin-bottom:1.4rem}
+.pmo-actions{display:flex;gap:.75rem;flex-wrap:wrap;border-top:1px solid var(--border);padding-top:1.4rem}
+.pmo-share{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);background:transparent;border:1px solid var(--border2);padding:.7rem 1.2rem;cursor:pointer;font-family:var(--ff-body);transition:all .2s}
+.pmo-share:hover{border-color:var(--rose);color:var(--rose)}
 .prop-img{height:190px;background:var(--bg3);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
 .prop-img img{width:100%;height:100%;object-fit:cover;display:block}
 .prop-img-placeholder{font-size:2.4rem;color:var(--border2)}
-.prop-badge{position:absolute;top:.8rem;left:.8rem;color:#fff;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;padding:.2rem .65rem;font-weight:500}
+.prop-badges-row{position:absolute;top:.8rem;left:.8rem;display:flex;gap:.35rem;flex-wrap:wrap}
+.prop-badge{color:#fff;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;padding:.22rem .65rem;font-weight:500}
+.badge-new{background:var(--rose)}
+.badge-trans.sprzedaz{background:rgba(80,60,100,.85)}
+.badge-trans.najem{background:rgba(40,90,150,.85)}
 .badge-new{background:var(--rose)}
 .badge-type{position:absolute;top:.8rem;right:.8rem;background:rgba(42,32,24,.7);color:#f0e6da;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;padding:.2rem .6rem;font-weight:500}
 .prop-body{padding:1.2rem 1.3rem}
@@ -283,7 +329,7 @@ footer{background:var(--text);padding:2.5rem clamp(1.5rem,4vw,3.5rem);transition
 .footer-social:hover{border-color:var(--rose);background:var(--rose)}
 .footer-social svg{width:16px;height:16px;fill:rgba(245,237,224,.5);transition:fill .2s}
 .footer-social:hover svg{fill:#fff}
-.footer-nav{display:flex;flex-direction:column;gap:.5rem}
+.footer-nav{display:flex;flex-direction:column;gap:.5rem;align-self:flex-start}
 .footer-nav a{font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(245,237,224,.45);text-decoration:none;transition:color .2s}
 .footer-nav a:hover{color:var(--rose)}
 .footer-firma{font-size:.75rem;color:rgba(245,237,224,.35);line-height:1.7}
@@ -510,6 +556,34 @@ footer p{font-size:.72rem;color:rgba(245,237,224,.35)}
 
 </main>
 
+<!-- MODAL OGŁOSZENIE -->
+<div class="pmo" id="pmo" role="dialog" aria-modal="true" aria-labelledby="pmo-title">
+  <div class="pmo-box">
+    <button class="pmo-close" id="pmo-close" aria-label="Zamknij">✕</button>
+    <div class="gal">
+      <div class="gal-track" id="gal-track"></div>
+      <button class="gal-btn gal-prev" id="gal-prev" aria-label="Poprzednie">‹</button>
+      <button class="gal-btn gal-next" id="gal-next" aria-label="Następne">›</button>
+      <div class="gal-dots" id="gal-dots"></div>
+      <div class="gal-count" id="gal-count"></div>
+    </div>
+    <div class="pmo-body">
+      <div class="pmo-badges" id="pmo-badges"></div>
+      <div class="pmo-top">
+        <h2 class="pmo-title" id="pmo-title"></h2>
+        <div class="pmo-price" id="pmo-price"></div>
+      </div>
+      <p class="pmo-loc" id="pmo-loc"></p>
+      <div class="pmo-params" id="pmo-params"></div>
+      <div class="pmo-desc" id="pmo-desc"></div>
+      <div class="pmo-actions">
+        <a href="#kontakt" class="btn btn-fill" id="pmo-contact">Zapytaj o tę nieruchomość</a>
+        <button class="pmo-share" id="pmo-share">🔗 Kopiuj link</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ══ FOOTER ══ -->
 <footer role="contentinfo">
   <div class="footer-in">
@@ -663,21 +737,25 @@ function formatPrice(p) {
   return new Intl.NumberFormat('pl-PL',{style:'currency',currency:'PLN',maximumFractionDigits:0}).format(n);
 }
 
-function propCard(row) {
+let allRows = [];
+
+function propCard(row, globalIdx) {
   const img = gdriveThumbnail(row.zdjecie);
   const isNew = (row.nowe||'').toLowerCase() === 'tak';
   const trans = (row.transakcja||'').toLowerCase();
   const transLabel = trans === 'najem' ? 'Najem' : 'Sprzedaż';
   const transClass = trans === 'najem' ? 'najem' : 'sprzedaz';
 
-  return `<article class="prop-card fu">
+  return `<article class="prop-card fu" role="button" tabindex="0" aria-label="${row.tytul||'Ogłoszenie'}" data-gidx="${globalIdx}">
     <div class="prop-img">
       ${img ? `<img src="${img}" alt="${row.tytul||''}" loading="lazy" onerror="this.parentElement.innerHTML='<span class=prop-img-placeholder>⌂</span>'"/>` : '<span class="prop-img-placeholder">⌂</span>'}
-      ${isNew ? '<span class="prop-badge badge-new">Nowe</span>' : ''}
-      <span class="badge-type">${row.typ||''}</span>
+      <div class="prop-badges-row">
+        ${isNew ? '<span class="prop-badge badge-new">Nowe</span>' : ''}
+        <span class="prop-badge badge-trans ${transClass}">${transLabel}</span>
+      </div>
+      ${row.typ ? `<span class="badge-type">${row.typ}</span>` : ''}
     </div>
     <div class="prop-body">
-      <div class="prop-transaction ${transClass}">${transLabel}</div>
       <p class="prop-name">${row.tytul||'Bez tytułu'}</p>
       ${row.lokalizacja ? `<p class="prop-loc">📍 ${row.lokalizacja}</p>` : ''}
       <p class="prop-price">${formatPrice(row.cena)}</p>
@@ -686,16 +764,24 @@ function propCard(row) {
         ${row.metraz  ? `<span>${row.metraz} m²</span>` : ''}
         ${row.pietro  ? `<span>${row.pietro} p.</span>` : ''}
       </div>
-      ${row.opis ? `<p style="margin-top:.7rem;font-size:.8rem;color:var(--text2);line-height:1.6">${row.opis}</p>` : ''}
     </div>
   </article>`;
+}
+
+function attachCards(grid) {
+  grid.querySelectorAll('.prop-card').forEach(card => {
+    const handler = () => { openModal(allRows[parseInt(card.dataset.gidx)]); };
+    card.addEventListener('click', handler);
+    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handler(); } });
+  });
 }
 
 function renderGrid(id, rows, emptyMsg) {
   const grid = document.getElementById(id);
   grid.innerHTML = rows.length
-    ? rows.map(r => propCard(r)).join('')
+    ? rows.map(r => propCard(r, allRows.indexOf(r))).join('')
     : `<div class="prop-empty"><p>${emptyMsg}</p>${id==='grid-akt' ? '<a href="#kontakt" class="btn btn-line" style="display:inline-block;margin-top:1.2rem">Zapytaj o oferty</a>' : ''}</div>`;
+  if (rows.length) attachCards(grid);
   grid.querySelectorAll('.fu').forEach(el => obs.observe(el));
 }
 
@@ -708,9 +794,15 @@ async function loadListings() {
   try {
     const resp = await fetch(SHEET_CSV_URL);
     if (!resp.ok) throw new Error('HTTP '+resp.status);
-    const data = parseCSV(await resp.text());
-    renderGrid('grid-akt',  data.filter(r=>(r.status||'').toLowerCase()==='aktywne'),  'Nowe oferty pojawiają się regularnie.');
-    renderGrid('grid-arch', data.filter(r=>(r.status||'').toLowerCase()==='archiwum'), 'Archiwum sprzedanych i wynajętych nieruchomości.');
+    allRows = parseCSV(await resp.text());
+    renderGrid('grid-akt',  allRows.filter(r=>(r.status||'').toLowerCase()==='aktywne'),  'Nowe oferty pojawiają się regularnie.');
+    renderGrid('grid-arch', allRows.filter(r=>(r.status||'').toLowerCase()==='archiwum'), 'Archiwum sprzedanych i wynajętych nieruchomości.');
+    // głęboki link
+    const qId = new URLSearchParams(location.search).get('ogloszenie');
+    if (qId) {
+      const row = allRows.find(r => (r.id || encodeURIComponent(r.tytul||'')) === qId);
+      if (row) setTimeout(() => { openModal(row); document.getElementById('nieruchomosci').scrollIntoView({behavior:'smooth'}); }, 300);
+    }
   } catch(e) {
     ['grid-akt','grid-arch'].forEach(id => {
       document.getElementById(id).innerHTML = '<div class="prop-empty"><p>Nie udało się wczytać ogłoszeń.</p></div>';
@@ -718,6 +810,115 @@ async function loadListings() {
   }
 }
 loadListings();
+
+// ══════════════════════════════════════════════
+// MODAL
+// ══════════════════════════════════════════════
+let galImgs = [], galIdx = 0;
+
+function galSet(idx) {
+  galIdx = (idx + galImgs.length) % galImgs.length;
+  document.getElementById('gal-track').style.transform = `translateX(-${galIdx * 100}%)`;
+  document.querySelectorAll('.gal-dot').forEach((d,i) => d.classList.toggle('on', i === galIdx));
+  document.getElementById('gal-count').textContent = galImgs.length > 1 ? `${galIdx+1} / ${galImgs.length}` : '';
+}
+
+document.getElementById('gal-prev').addEventListener('click', () => galSet(galIdx - 1));
+document.getElementById('gal-next').addEventListener('click', () => galSet(galIdx + 1));
+
+// swipe
+let tx = 0;
+document.getElementById('gal-track').addEventListener('touchstart', e => tx = e.touches[0].clientX, {passive:true});
+document.getElementById('gal-track').addEventListener('touchend',   e => {
+  const dx = e.changedTouches[0].clientX - tx;
+  if (Math.abs(dx) > 44) galSet(dx < 0 ? galIdx + 1 : galIdx - 1);
+});
+
+function openModal(row) {
+  // zbierz zdjęcia: zdjecie, zdjecie2 ... zdjecie10
+  galImgs = [];
+  for (let i = 1; i <= 10; i++) {
+    const key = i === 1 ? 'zdjecie' : `zdjecie${i}`;
+    const url = gdriveThumbnail(row[key] || '');
+    if (url) galImgs.push(url);
+  }
+  if (!galImgs.length) galImgs = [''];
+
+  // slajdy
+  const track = document.getElementById('gal-track');
+  track.style.transition = 'none';
+  track.innerHTML = galImgs.map(img =>
+    img
+      ? `<div class="gal-slide"><img src="${img}" alt="" loading="lazy" onerror="this.parentElement.innerHTML='<div class=gal-slide-ph>&#8962;</div>'"/></div>`
+      : '<div class="gal-slide"><div class="gal-slide-ph">&#8962;</div></div>'
+  ).join('');
+  setTimeout(() => track.style.transition = '', 30);
+
+  const showNav = galImgs.length > 1;
+  document.getElementById('gal-prev').style.display = showNav ? '' : 'none';
+  document.getElementById('gal-next').style.display = showNav ? '' : 'none';
+
+  const dotsEl = document.getElementById('gal-dots');
+  dotsEl.innerHTML = showNav
+    ? galImgs.map((_,i) => `<button class="gal-dot${i===0?' on':''}" aria-label="Zdjęcie ${i+1}"></button>`).join('')
+    : '';
+  dotsEl.querySelectorAll('.gal-dot').forEach((d,i) => d.addEventListener('click', () => galSet(i)));
+  galSet(0);
+
+  // treść
+  const trans = (row.transakcja||'').toLowerCase();
+  document.getElementById('pmo-badges').innerHTML =
+    (trans ? `<span class="mbadge ${trans==='najem'?'mbadge-blue':'mbadge-rose'}">${trans==='najem'?'Najem':'Sprzedaż'}</span>` : '') +
+    (row.typ  ? `<span class="mbadge mbadge-out">${row.typ}</span>` : '') +
+    ((row.nowe||'').toLowerCase()==='tak' ? '<span class="mbadge mbadge-rose">Nowe</span>' : '');
+
+  document.getElementById('pmo-title').textContent = row.tytul  || 'Nieruchomość';
+  document.getElementById('pmo-price').textContent = formatPrice(row.cena);
+  document.getElementById('pmo-loc').textContent   = row.lokalizacja ? `📍 ${row.lokalizacja}` : '';
+
+  const paramDefs = [
+    ['Metraż',     row.metraz    && row.metraz + ' m²'],
+    ['Pokoje',     row.pokoje],
+    ['Piętro',     row.pietro],
+    ['Rok budowy', row.rok],
+    ['Stan',       row.stan],
+    ['Ogrzewanie', row.ogrzewanie],
+  ];
+  document.getElementById('pmo-params').innerHTML = paramDefs
+    .filter(([,v]) => v)
+    .map(([l,v]) => `<dl class="pmo-param"><dt>${l}</dt><dd>${v}</dd></dl>`)
+    .join('');
+
+  document.getElementById('pmo-desc').innerHTML = row.opis ? `<p>${row.opis}</p>` : '';
+
+  // URL — opcja C
+  const rowId = row.id || encodeURIComponent(row.tytul || 'nieruchomosc');
+  const shareUrl = `${location.origin}${location.pathname}?ogloszenie=${rowId}`;
+  history.pushState({ogloszenie: rowId}, '', shareUrl);
+
+  document.getElementById('pmo-share').onclick = () => {
+    navigator.clipboard.writeText(shareUrl).then(() => {
+      const btn = document.getElementById('pmo-share');
+      btn.textContent = '✓ Skopiowano!';
+      setTimeout(() => btn.textContent = '🔗 Kopiuj link', 2000);
+    });
+  };
+
+  document.getElementById('pmo').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('pmo').classList.remove('open');
+  document.body.style.overflow = '';
+  history.pushState({}, '', location.pathname);
+}
+
+document.getElementById('pmo-close').addEventListener('click', closeModal);
+document.getElementById('pmo').addEventListener('click', e => { if (e.target === document.getElementById('pmo')) closeModal(); });
+document.getElementById('pmo-contact').addEventListener('click', closeModal);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+window.addEventListener('popstate', () => { if (!location.search.includes('ogloszenie')) closeModal(); });
 
 // ═══════════════════════════════════════════════
 //  FORMULARZ — EmailJS
